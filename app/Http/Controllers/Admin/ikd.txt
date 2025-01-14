@@ -1,0 +1,381 @@
+terbaru 13/07/2024 12:28
+   private function showPenilaian(Request $request)
+    {
+        // Ambil semua dosen
+        $dosenQuery = Dosen::query();
+
+        if ($request->filled('fakultas_id')) {
+            $dosenQuery->whereHas('prodi', function($query) use ($request) {
+                $query->where('fakultas_id', $request->fakultas_id);
+            });
+        }
+
+        // Filter berdasarkan prodi
+        if ($request->filled('prodi_id')) {
+            $dosenQuery->where('prodi_id', $request->prodi_id);
+        }
+        $dosen = $dosenQuery->get();
+
+        // Ambil semua kriteria
+        $criteria = Kriteria::with('subKriteria')->get();
+
+        // Filter berdasarkan tahun ajaran
+        $tahunAjaran = $request->input('tahun_ajaran');
+
+        $penilaianData = [];
+
+        foreach ($dosen as $d) {
+            $dosenData = [
+                'dosen' => $d,
+                'criteria_scores' => [],
+                'ikd' => 0
+            ];
+
+            $totalIKD = 0;
+
+            foreach ($criteria as $criterion) {
+                $subCriteria = $criterion->subKriteria;
+
+                $totalSubCriteriaScore = 0;
+                $subCriteriaCount = $subCriteria->count();
+
+                foreach ($subCriteria as $subCriterion) {
+                    // Ambil semua penilaian untuk subkriteria ini berdasarkan tahun ajaran
+                    $penilaian = DetailPenilaian::where('subkriteria_id', $subCriterion->subkriteria_id)
+                        ->whereHas('penilaianKinerja', function ($query) use ($d, $tahunAjaran) {
+                            $query->where('dosen_id', $d->dosen_id)
+                                  ->whereHas('krs.kelas', function ($query) use ($tahunAjaran) {
+                                      $query->where('tahun_ajaran', $tahunAjaran);
+                                  });
+                        })
+                        ->get();
+
+                    // Hitung rata-rata nilai untuk subkriteria ini
+                    $averageScore = $penilaian->avg(function ($detailPenilaian) {
+                        return SkalaPenilaian::find($detailPenilaian->skala_id)->nilai;
+                    });
+
+                    // Tambahkan rata-rata nilai ke total subkriteria score
+                    $totalSubCriteriaScore += $averageScore;
+                }
+
+                // Hitung rata-rata dari semua subkriteria
+                $averageSubCriteriaScore = $subCriteriaCount > 0 ? $totalSubCriteriaScore / $subCriteriaCount : 0;
+
+                // Hitung nilai total untuk kriteria ini
+                $totalCriterionScore = $averageSubCriteriaScore * ($criterion->bobot / 100);
+
+                // Tambahkan nilai kriteria ke total IKD
+                $totalIKD += $totalCriterionScore;
+
+                $dosenData['criteria_scores'][$criterion->nama_kriteria] = $totalCriterionScore;
+            }
+
+            $dosenData['ikd'] = $totalIKD;
+            $dosenData['classification'] = $this->classifyIKD($totalIKD);
+
+            // Tambahkan tahun ajaran ke data dosen
+            $dosenData['tahun_ajaran'] = $tahunAjaran;
+
+            $penilaianData[] = $dosenData;
+        }
+
+           return $penilaianData;
+    }
+
+
+
+terbaru 13/07/2024 12:20
+ public function index(Request $request)
+    {
+        // Ambil tahun ajaran terbaru
+        $tahunAjaranTerbaru = Kelas::max('tahun_ajaran');
+
+        // Ambil list fakultas, prodi, dan tahun ajaran
+        $criteria = Kriteria::all();
+        $fakultasList = Fakultas::all();
+        $prodiList = Prodi::all();
+        $tahunAjaranList = Kelas::distinct('tahun_ajaran')->pluck('tahun_ajaran');
+
+        // Jika tidak ada tahun ajaran yang dipilih, ambil data untuk tahun ajaran terbaru
+        if (!$request->filled('tahun_ajaran')) {
+            $request->merge(['tahun_ajaran' => $tahunAjaranTerbaru]);
+        }
+
+        // Panggil method showPenilaian untuk mendapatkan data penilaian
+        $penilaianData = $this->showPenilaian($request);
+
+        // Data yang dipilih
+        $selectedTahunAjaran = $request->input('tahun_ajaran');
+        $selectedFakultasId = $request->input('fakultas_id');
+        $selectedProdiId = $request->input('prodi_id');
+
+        // Lakukan pengolahan data penilaian sesuai kebutuhan
+        return view('admin.IKD.ikd', compact('criteria','fakultasList', 'prodiList', 'tahunAjaranList', 'penilaianData', 'selectedTahunAjaran', 'selectedFakultasId', 'selectedProdiId'));
+    }
+ // private function showPenilaian(Request $request)
+    // {
+    //     // Ambil semua dosen
+    //     $dosenQuery = Dosen::query();
+
+    //       if ($request->filled('fakultas_id')) {
+    //         $dosenQuery->whereHas('prodi', function($query) use ($request) {
+    //             $query->where('fakultas_id', $request->fakultas_id);
+    //         });
+    //     }
+
+    //     // Filter berdasarkan prodi
+    //     if ($request->filled('prodi_id')) {
+    //         $dosenQuery->where('prodi_id', $request->prodi_id);
+    //     }
+    //     $dosen = $dosenQuery->get();
+
+    //     // Ambil semua kriteria
+    //     $criteria = Kriteria::with('subKriteria')->get();
+
+    //     // Filter berdasarkan tahun ajaran
+    //     $tahunAjaran = $request->input('tahun_ajaran');
+
+    //     $penilaianData = [];
+
+    //     foreach ($dosen as $d) {
+    //         $dosenData = [
+    //             'dosen' => $d,
+    //             'criteria_scores' => [],
+    //             'ikd' => 0
+    //         ];
+
+    //         $totalIKD = 0;
+
+    //         foreach ($criteria as $criterion) {
+    //             $subCriteria = $criterion->subKriteria;
+
+    //             $totalSubCriteriaScore = 0;
+    //             $subCriteriaCount = $subCriteria->count();
+
+    //             foreach ($subCriteria as $subCriterion) {
+    //                 // Ambil semua penilaian untuk subkriteria ini berdasarkan tahun ajaran
+    //                 $penilaian = DetailPenilaian::where('subkriteria_id', $subCriterion->subkriteria_id)
+    //                     ->whereHas('penilaianKinerja', function ($query) use ($d, $tahunAjaran) {
+    //                         $query->where('dosen_id', $d->dosen_id)
+    //                               ->whereHas('krs.kelas', function ($query) use ($tahunAjaran) {
+    //                                   $query->where('tahun_ajaran', $tahunAjaran);
+    //                               });
+    //                     })
+    //                     ->get();
+
+    //                 // Hitung rata-rata nilai untuk subkriteria ini
+    //                 $averageScore = $penilaian->avg(function ($detailPenilaian) {
+    //                     return SkalaPenilaian::find($detailPenilaian->skala_id)->nilai;
+    //                 });
+
+    //                 // Tambahkan rata-rata nilai ke total subkriteria score
+    //                 $totalSubCriteriaScore += $averageScore;
+    //             }
+
+    //             // Hitung rata-rata dari semua subkriteria
+    //             $averageSubCriteriaScore = $subCriteriaCount > 0 ? $totalSubCriteriaScore / $subCriteriaCount : 0;
+
+    //             // Hitung nilai total untuk kriteria ini
+    //             $totalCriterionScore = $averageSubCriteriaScore * ($criterion->bobot / 100);
+
+    //             // Tambahkan nilai kriteria ke total IKD
+    //             $totalIKD += $totalCriterionScore;
+
+    //             $dosenData['criteria_scores'][$criterion->nama_kriteria] = $totalCriterionScore;
+    //         }
+
+    //         $dosenData['ikd'] = $totalIKD;
+    //         $dosenData['classification'] = $this->classifyIKD($totalIKD);
+
+
+    //         $penilaianData[] = $dosenData;
+    //     }
+
+    //     return $penilaianData;
+    // }
+
+
+
+
+=============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+old
+
+public function index(Request $request)
+    {
+        // Ambil list fakultas, prodi, dan tahun ajaran
+        $fakultasList = Fakultas::all();
+        $prodiList = Prodi::all();
+        $tahunAjaranList = Kelas::distinct('tahun_ajaran')->pluck('tahun_ajaran');
+
+        // Query untuk mengambil penilaian
+        $penilaianQuery = Penilaian::query();
+
+        // Filter berdasarkan fakultas
+        if ($request->filled('fakultas_id')) {
+            $penilaianQuery->whereHas('krs.kelas.matkul.prodi', function($query) use ($request) {
+                $query->where('fakultas_id', $request->fakultas_id);
+            });
+        }
+
+        // Filter berdasarkan prodi
+        if ($request->filled('prodi_id')) {
+            $penilaianQuery->whereHas('krs.kelas.matkul.prodi', function($query) use ($request) {
+                $query->where('prodi_id', $request->prodi_id);
+            });
+        }
+
+        // Filter berdasarkan tahun ajaran
+        if ($request->filled('tahun_ajaran')) {
+            $penilaianQuery->whereHas('krs.kelas', function($query) use ($request) {
+                $query->where('tahun_ajaran', $request->tahun_ajaran);
+            });
+        }
+
+        // Ambil data penilaian sesuai filter
+        $penilaianData = $penilaianQuery->get();
+
+        // Lakukan pengolahan data penilaian sesuai kebutuhan
+
+        return view('admin.IKD.ikd', compact('fakultasList', 'prodiList', 'tahunAjaranList', 'penilaianData'));
+    }
+
+    public function getProdiByFakultas($fakultasId)
+    {
+        $prodiList = Prodi::where('fakultas_id', $fakultasId)->pluck('nama_prodi', 'prodi_id');
+        return response()->json($prodiList);
+    }
+
+public function showPenilaian()
+{
+    // Ambil semua dosen
+    $dosen = Dosen::all();
+
+    // Ambil semua kriteria
+    $criteria = Kriteria::with('subKriteria')->get();
+
+    $penilaianData = [];
+
+    foreach ($dosen as $d) {
+        $dosenData = [
+            'dosen' => $d,
+            'criteria_scores' => [],
+            'ikd' => 0
+        ];
+
+        $totalIKD = 0;
+
+        foreach ($criteria as $criterion) {
+            $subCriteria = $criterion->subKriteria;
+
+            $totalSubCriteriaScore = 0;
+            $subCriteriaCount = $subCriteria->count();
+
+            foreach ($subCriteria as $subCriterion) {
+                // Ambil semua penilaian untuk subkriteria ini
+                $penilaian = DetailPenilaian::where('subkriteria_id', $subCriterion->subkriteria_id)
+                    ->whereHas('penilaianKinerja', function ($query) use ($d) {
+                        $query->where('dosen_id', $d->dosen_id);
+                    })
+                    ->get();
+
+                    // Hitung rata-rata nilai untuk subkriteria ini
+                    $averageScore = $penilaian->avg(function ($detailPenilaian) {
+                        return SkalaPenilaian::find($detailPenilaian->skala_id)->nilai;
+                    });
+                    // dd($averageScore);
+
+
+                // Tambahkan rata-rata nilai ke total subkriteria score
+                $totalSubCriteriaScore += $averageScore;
+            }
+
+            // Hitung rata-rata dari semua subkriteria
+            $averageSubCriteriaScore = $subCriteriaCount > 0 ? $totalSubCriteriaScore / $subCriteriaCount : 0;
+
+            // Hitung nilai total untuk kriteria ini
+            $totalCriterionScore = $averageSubCriteriaScore * ($criterion->bobot / 100);
+
+            // Tambahkan nilai kriteria ke total IKD
+            $totalIKD += $totalCriterionScore;
+
+            $dosenData['criteria_scores'][$criterion->nama_kriteria] = $totalCriterionScore;
+        }
+
+        $dosenData['ikd'] = $totalIKD;
+        $dosenData['classification'] = $this->classifyIKD($totalIKD);
+
+
+        $penilaianData[] = $dosenData;
+
+    }
+    // dd($penilaianData);
+
+    return view ('admin.IKD.ikd', compact('penilaianData', 'criteria'));
+}
+
+private function classifyIKD($ikd)
+{
+    if ($ikd >= 4.01 && $ikd <= 5.00) {
+        return 'Sangat Baik (Standar Minimal Kinerja Selalu Tercapai Lebih)';
+    } elseif ($ikd >= 3.01 && $ikd <= 4.00) {
+        return 'Baik (Standar Minimal Kinerja Tercapai Lebih)';
+    } elseif ($ikd >= 2.01 && $ikd <= 3.00) {
+        return 'Standar (Standar Minimal Kinerja Tercapai)';
+    } elseif ($ikd >= 1.01 && $ikd <= 2.00) {
+        return 'Kurang (Standar Minimal Kinerja Tercapai Sebagian)';
+    } elseif ($ikd >= 0.01 && $ikd < 1.00) {
+        return 'Sangat Kurang (Standar Minimal Kinerja Tidak Tercapai)';
+    } else {
+        return 'Belum Disi (Menunggu Jawaban Responden)';
+    }
+
+
+}

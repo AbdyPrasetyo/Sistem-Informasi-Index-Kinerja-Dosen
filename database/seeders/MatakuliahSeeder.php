@@ -1,0 +1,126 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class MatakuliahSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        DB::table('matakuliah')->insert([
+            // Teknik Informatika
+            ['kode_matakuliah' => 'IF2011', 'nama_matakuliah' => 'Algoritma Pemrograman', 'semester' => 1, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2012', 'nama_matakuliah' => 'Dasar Pemrograman', 'semester' => 1, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2013', 'nama_matakuliah' => 'Logika Informatika', 'semester' => 1, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2014', 'nama_matakuliah' => 'Kalkulus Diferensial', 'semester' => 1, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2015', 'nama_matakuliah' => 'Struktur Data', 'semester' => 3, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2016', 'nama_matakuliah' => 'Pemrograman Basis Data', 'semester' => 3, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2017', 'nama_matakuliah' => 'Sistem Digital', 'semester' => 3, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2018', 'nama_matakuliah' => 'Pengembangan Aplikasi Web', 'semester' => 3, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2019', 'nama_matakuliah' => 'Matematika Diskret', 'semester' => 3, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2020', 'nama_matakuliah' => 'Embedded System', 'semester' => 3, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2021', 'nama_matakuliah' => 'Aljabar Linear', 'semester' => 5, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2022', 'nama_matakuliah' => 'Metode Numeric', 'semester' => 5, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2023', 'nama_matakuliah' => 'Teknopreneur', 'semester' => 5, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2024', 'nama_matakuliah' => 'Teknik Penulisan Dan Presentasi', 'semester' => 5, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2025', 'nama_matakuliah' => 'Pemrograman Visual', 'semester' => 5, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2026', 'nama_matakuliah' => 'Management Proyek Perangkat Lunak', 'semester' => 7, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2027', 'nama_matakuliah' => 'Proyek Perangkat Lunak', 'semester' => 7, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2028', 'nama_matakuliah' => 'Riset Teknologi Dan Informatika', 'semester' => 7, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2029', 'nama_matakuliah' => 'Sistem Pakar', 'semester' => 7, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2030', 'nama_matakuliah' => 'Desain Dan Analisis Algoritma', 'semester' => 2, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2031', 'nama_matakuliah' => 'Desain Basis Data', 'semester' => 2, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2032', 'nama_matakuliah' => 'Arsitektur Dan Organisasi Komputer', 'semester' => 2, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2033', 'nama_matakuliah' => 'Kalkulus Integral', 'semester' => 2, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2034', 'nama_matakuliah' => 'Sistem Informasi', 'semester' => 2, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2035', 'nama_matakuliah' => 'Pemrograman Web', 'semester' => 2, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2036', 'nama_matakuliah' => 'Komunikasi Data', 'semester' => 2, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2037', 'nama_matakuliah' => 'Sistem Operasi', 'semester' => 4, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2038', 'nama_matakuliah' => 'Jaringan Komputer', 'semester' => 4, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2039', 'nama_matakuliah' => 'Teori Bahasa Dan Otomata', 'semester' => 4, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2040', 'nama_matakuliah' => 'Sosio Informatika', 'semester' => 4, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2041', 'nama_matakuliah' => 'Sistem Komputer Interaktif', 'semester' => 4, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2042', 'nama_matakuliah' => 'Grafika Komputer', 'semester' => 6, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2043', 'nama_matakuliah' => 'Kecerdasan Buatan', 'semester' => 6, 'sks' => 2, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2044', 'nama_matakuliah' => 'Rekayasa Perangkat Lunak', 'semester' => 6, 'sks' => 3, 'prodi_id' => 1],
+            ['kode_matakuliah' => 'IF2045', 'nama_matakuliah' => 'Riset Operasi', 'semester' => 6, 'sks' => 3, 'prodi_id' => 1],
+
+            // Ekonomi
+            ['kode_matakuliah' => 'EK2040', 'nama_matakuliah' => 'Pengantar Ekonomi Mikro', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2041', 'nama_matakuliah' => 'Pengantar Ekonomi Makro', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2042', 'nama_matakuliah' => 'Matematika Ekonomi I', 'semester' => 1, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2043', 'nama_matakuliah' => 'Pengantar Akuntansi', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2044', 'nama_matakuliah' => 'Pengantar Bisnis', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2045', 'nama_matakuliah' => 'Pengantar Manajemen', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2046', 'nama_matakuliah' => 'Bahasa Inggris Ekonomi I', 'semester' => 1, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2047', 'nama_matakuliah' => 'Teori Ekonomi Mikro', 'semester' => 3, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2048', 'nama_matakuliah' => 'Teori Ekonomi Makro', 'semester' => 3, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2049', 'nama_matakuliah' => 'Ekonometrika Dasar', 'semester' => 3, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2050', 'nama_matakuliah' => 'Akuntansi Keuangan Menengah', 'semester' => 3, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2051', 'nama_matakuliah' => 'Manajemen Pemasaran', 'semester' => 3, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2052', 'nama_matakuliah' => 'Ekonomi Pembangunan', 'semester' => 3, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2053', 'nama_matakuliah' => 'Bahasa Inggris Ekonomi III', 'semester' => 3, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2054', 'nama_matakuliah' => 'Analisis Kebijakan Ekonomi', 'semester' => 5, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2055', 'nama_matakuliah' => 'Pasar Modal dan Manajemen Investasi', 'semester' => 5, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2056', 'nama_matakuliah' => 'Perencanaan Pembangunan Ekonomi', 'semester' => 5, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2057', 'nama_matakuliah' => 'Ekonomi Publik', 'semester' => 5, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2058', 'nama_matakuliah' => 'Etika Bisnis', 'semester' => 7, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2059', 'nama_matakuliah' => 'Kewirausahaan', 'semester' => 7, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2060', 'nama_matakuliah' => 'Analisis Keuangan', 'semester' => 7, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2061', 'nama_matakuliah' => 'Ekonomi Kreatif', 'semester' => 7, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2062', 'nama_matakuliah' => 'Ekonomi Mikro Lanjutan', 'semester' => 2, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2063', 'nama_matakuliah' => 'Ekonomi Makro Lanjutan', 'semester' => 2, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2064', 'nama_matakuliah' => 'Matematika Ekonomi II', 'semester' => 2, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2065', 'nama_matakuliah' => 'Akuntansi Keuangan Dasar', 'semester' => 2, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2066', 'nama_matakuliah' => 'Pengantar Statistika', 'semester' => 2, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2067', 'nama_matakuliah' => 'Hukum Bisnis', 'semester' => 2, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2068', 'nama_matakuliah' => 'Ekonometrika Lanjutan', 'semester' => 4, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2069', 'nama_matakuliah' => 'Akuntansi Manajemen', 'semester' => 4, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2070', 'nama_matakuliah' => 'Manajemen Keuangan', 'semester' => 4, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2071', 'nama_matakuliah' => 'Manajemen Sumber Daya Manusia', 'semester' => 4, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2072', 'nama_matakuliah' => 'Manajemen Risiko Keuangan', 'semester' => 6, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2073', 'nama_matakuliah' => 'Ekonomi Lingkungan', 'semester' => 6, 'sks' => 3, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2074', 'nama_matakuliah' => 'Ekonomi Pertanian', 'semester' => 6, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2075', 'nama_matakuliah' => 'Ekonomi Kesehatan', 'semester' => 6, 'sks' => 2, 'prodi_id' => 2],
+            ['kode_matakuliah' => 'EK2076', 'nama_matakuliah' => 'Ekonomi Digital', 'semester' => 6, 'sks' => 2, 'prodi_id' => 2],
+
+            // Hukum
+            ['kode_matakuliah' => 'HK2020', 'nama_matakuliah' => 'Pengantar Ilmu Hukum', 'semester' => 1, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2021', 'nama_matakuliah' => 'Hukum Tata Negara', 'semester' => 1, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2022', 'nama_matakuliah' => 'Hukum Perdata Dasar', 'semester' => 1, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2023', 'nama_matakuliah' => 'Hukum Pidana Dasar', 'semester' => 1, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2024', 'nama_matakuliah' => 'Bahasa Indonesia Hukum', 'semester' => 1, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2025', 'nama_matakuliah' => 'Hukum Agraria', 'semester' => 3, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2026', 'nama_matakuliah' => 'Hukum Perdata Lanjutan', 'semester' => 3, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2027', 'nama_matakuliah' => 'Hukum Pidana Lanjutan', 'semester' => 3, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2028', 'nama_matakuliah' => 'Hukum Acara Tata Usaha Negara', 'semester' => 3, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2029', 'nama_matakuliah' => 'Hukum Keluarga', 'semester' => 5, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2030', 'nama_matakuliah' => 'Hukum Waris', 'semester' => 5, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2031', 'nama_matakuliah' => 'Hukum Agraria Lanjutan', 'semester' => 5, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2032', 'nama_matakuliah' => 'Hukum Internasional Lanjutan', 'semester' => 5, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2033', 'nama_matakuliah' => 'Hukum Humaniter Internasional', 'semester' => 5, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2034', 'nama_matakuliah' => 'Etika Profesi Hukum', 'semester' => 7, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2035', 'nama_matakuliah' => 'Hukum dan Teknologi', 'semester' => 7, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2036', 'nama_matakuliah' => 'Hukum Perpajakan', 'semester' => 7, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2037', 'nama_matakuliah' => 'Klinik Hukum', 'semester' => 7, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2038', 'nama_matakuliah' => 'Hukum Administrasi Negara', 'semester' => 2, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2039', 'nama_matakuliah' => 'Hukum Internasional', 'semester' => 2, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2040', 'nama_matakuliah' => 'Hukum Acara Perdata', 'semester' => 2, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2041', 'nama_matakuliah' => 'Hukum Acara Pidana', 'semester' => 2, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2042', 'nama_matakuliah' => 'Hukum Ketenagakerjaan', 'semester' => 4, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2043', 'nama_matakuliah' => 'Hukum Perusahaan', 'semester' => 4, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2044', 'nama_matakuliah' => 'Hukum Perbankan', 'semester' => 4, 'sks' => 3, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2045', 'nama_matakuliah' => 'Hukum Hak Kekayaan Intelektual', 'semester' => 4, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2046', 'nama_matakuliah' => 'Hukum Persaingan Usaha', 'semester' => 6, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2047', 'nama_matakuliah' => 'Hukum Arbitrase dan Alternatif Penyelesaian Sengketa', 'semester' => 6, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2048', 'nama_matakuliah' => 'Hukum Perdagangan Internasional', 'semester' => 6, 'sks' => 2, 'prodi_id' => 3],
+            ['kode_matakuliah' => 'HK2049', 'nama_matakuliah' => 'Hukum Sumber Daya Alam', 'semester' => 6, 'sks' => 2, 'prodi_id' => 3],
+        ]);
+    }
+}

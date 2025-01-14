@@ -1,0 +1,93 @@
+private function adminDashboard($loggedInUser)
+{
+    $mahasiswa = Mahasiswa::all()->count();
+    $matkul = MataKuliah::all()->count();
+    $prodis = Prodi::all()->count();
+    $fakultass = Fakultas::all()->count();
+    $dosens = Dosen::all()->count();
+    $admin = Admin::all()->count();
+    $skala = SkalaPenilaian::all()->count();
+    $kriteria = Kriteria::all()->count();
+    $subKriteria = SubKriteria::all()->count();
+    $penilaian = Penilaian::all()->count();
+
+
+    $tahunAjaranTerbaru = Kelas::max('tahun_ajaran');
+
+    // Ambil list fakultas
+    $fakultasList = Fakultas::all();
+
+    // Mengumpulkan data IKD per fakultas
+    $ikdData = [];
+
+    foreach ($fakultasList as $fakultas) {
+        $totalIKD = 0;
+        $dosenCount = 0;
+
+        foreach ($fakultas->prodi as $prodi) {
+            foreach ($prodi->dosens as $dosen) {
+                if ($dosen) { // Pastikan objek $dosen valid
+                    $dosenIKD = $this->calculateDosenIKD($dosen->dosen_id, $tahunAjaranTerbaru);
+                    if ($dosenIKD !== null) {
+                        $totalIKD += $dosenIKD;
+                        $dosenCount++;
+                    }
+                }
+            }
+        }
+
+        $averageIKD = $dosenCount > 0 ? $totalIKD / $dosenCount : 0;
+        $ikdData[$fakultas->nama_fakultas] = $averageIKD;
+    }
+
+
+    return view('dashboard', [
+        'mahasiswa' => $mahasiswa,
+        'matkul' => $matkul,
+        'prodis' => $prodis,
+        'fakultass' => $fakultass,
+        'dosens' => $dosens,
+        'admin' => $admin,
+        'skala' => $skala,
+        'kriteria' => $kriteria,
+        'subKriteria' => $subKriteria,
+        'penilaian' => $penilaian,
+        'ikdData' => $ikdData,
+        'tahunAjaran' => $tahunAjaranTerbaru,
+    ]);
+
+}
+
+
+
+
+
+private function calculateDosenIKD($dosen_id, $tahunAjaran)
+{
+    $penilaianKinerja = Penilaian::whereHas('krs.kelas', function ($query) use ($dosen_id, $tahunAjaran) {
+        $query->where('dosen_id', $dosen_id)
+              ->where('tahun_ajaran', $tahunAjaran);
+    })->get();
+
+    if ($penilaianKinerja->isEmpty()) {
+        return null;
+    }
+
+    $totalNilai = 0;
+    $jumlahPenilaian = 0;
+
+    foreach ($penilaianKinerja as $penilaian) {
+        $detailPenilaian = $penilaian->detailPenilaianKinerja;
+        foreach ($detailPenilaian as $detail) {
+            $skalaPenilaian = SkalaPenilaian::find($detail->skala_id);
+            if ($skalaPenilaian) {
+                $totalNilai += $skalaPenilaian->nilai;
+                $jumlahPenilaian++;
+            }
+        }
+    }
+
+    $averageIKD = $jumlahPenilaian > 0 ? $totalNilai / $jumlahPenilaian : null;
+
+    return $averageIKD;
+}
